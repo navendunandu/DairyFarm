@@ -158,15 +158,15 @@ $yValues = [];
                 <?php
             } else {
                 // Initial user data retrieval
-                $sel = "SELECT * FROM tbl_user WHERE user_status = 1";
-                $row = $Con->query($sel);
+                $sel = "SELECT * FROM tbl_user";
+                $row = $con->query($sel);
                 while ($data = $row->fetch_assoc()) {
                     $xValues[] = $data["user_name"];
-                    $sel1 = "SELECT IFNULL(SUM(cart_qty), 0) AS ID FROM tbl_cart c 
+                    $sel1 = "SELECT IFNULL(SUM(cart_quantity), 0) AS ID FROM tbl_cart c 
                               INNER JOIN tbl_product p ON c.product_ID = p.product_ID 
                               INNER JOIN tbl_booking o ON c.booking_ID = o.booking_ID 
                               WHERE cart_status IN (1,3,4) 
-                              AND p.user_ID = '" . $data["user_ID"] . "'";
+                              AND o.user_ID = '" . $data["user_ID"] . "'";
                     $row1 = $con->query($sel1);
                     while ($data1 = $row1->fetch_assoc()) {
                         $yValues[] = $data1["ID"];
