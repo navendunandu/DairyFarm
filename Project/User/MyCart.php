@@ -103,12 +103,24 @@ include("Head.php");
                         $total_price = $data['cart_quantity'] * $data['product_price'];
                         $checkout += $total_price;
                         $i++;
+                        $product_id = $data['product_ID'];
+            $stockQry = "SELECT SUM(stock_quantity) AS stock FROM tbl_stock WHERE product_ID = $product_id";
+            $stockResult = $con->query($stockQry);
+            $stockData = $stockResult->fetch_assoc();
+			
+			$cart="SELECT sum(cart_quantity) as sum from tbl_cart where cart_status>0 and product_ID=".$product_id;
+			$resCart=$con->query($cart);
+			$dataCart=$resCart->fetch_assoc();
+			$rem=$stockData['stock']-$dataCart['sum'];
+            if($rem<0){
+                $rem=0;
+            }
                     ?>
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $data["category_name"]; ?></td>
                         <td><?php echo $data["subcategory_name"]; ?></td>
-                        <td><input type="number" class="form-control" onchange="update(this.value, '<?php echo $data['cart_ID']; ?>')" value="<?php echo $data['cart_quantity']; ?>" /></td>
+                        <td><input type="number" min="<?php echo $rem ?>" class="form-control" onchange="update(this.value, '<?php echo $data['cart_ID']; ?>')" value="<?php echo $data['cart_quantity']; ?>" /></td>
                         <td><?php echo $data["product_price"]; ?></td>
                         <td><?php echo $total_price; ?></td>
                         <td><img src="../Asset/Files/Product/<?php echo $data['product_photo']; ?>" width="120" height="120" class="img-fluid"></td>
