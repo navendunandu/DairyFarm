@@ -120,7 +120,7 @@ include("Head.php");
                         <td><?php echo $i; ?></td>
                         <td><?php echo $data["category_name"]; ?></td>
                         <td><?php echo $data["subcategory_name"]; ?></td>
-                        <td><input type="number" min="<?php echo $rem ?>" class="form-control" onchange="update(this.value, '<?php echo $data['cart_ID']; ?>')" value="<?php echo $data['cart_quantity']; ?>" /></td>
+                        <td><input type="number" max="<?php echo $rem ?>" class="form-control" onchange="update(this.value, '<?php echo $data['cart_ID']; ?>')" value="<?php echo $data['cart_quantity']; ?>" /></td>
                         <td><?php echo $data["product_price"]; ?></td>
                         <td><?php echo $total_price; ?></td>
                         <td><img src="../Asset/Files/Product/<?php echo $data['product_photo']; ?>" width="120" height="120" class="img-fluid"></td>
